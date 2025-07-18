@@ -1,0 +1,15 @@
+{
+  "model_name": "meta-llama/Llama-2-7b-chat-hf",
+  "use_vllm": true,
+  "temperature": 0.0,
+  "max_tokens": 512,
+  "top_p": 1.0,
+  "datasets": ["logiqa2", "logiqa", "reclor"],
+  "sampling_method": "direct",
+  "num_samples": 1,
+  "batch_size": 8,
+  "output_dir": "./results",
+  "save_intermediate": true,
+  "tensor_parallel_size": 1,
+  "gpu_memory_utilization": 0.9
+}
