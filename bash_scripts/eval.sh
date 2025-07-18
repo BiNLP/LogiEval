@@ -1,0 +1,13 @@
+python evaluate.py \
+    --model_name "/home/chenzhb/Workspaces/LLMs/Qwen2.5-1.5B-Instruct" \
+    --datasets "logiqa2" \
+    --temperature 0.6 \
+    --max_tokens 4096 \
+    --top_p 0.95 \
+    --sampling_method "bon" \
+    --num_samples 5 \
+    --batch_size 4 \
+    --use_vllm \
+    --save_intermediate \
+    --tensor_parallel_size 2 \
+    --output_dir "./results"
