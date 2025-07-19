@@ -8,7 +8,7 @@ from .base import BaseDataset, LogicalReasoningExample
 class ReClor(BaseDataset):
     """ReClor dataset from metaeval/reclor"""
     
-    def __init__(self, split: str = "test"):
+    def __init__(self, split: str = "validation"):
         super().__init__(split)
         self.name = "reclor"
         self.load_data()
@@ -16,20 +16,21 @@ class ReClor(BaseDataset):
     def load_data(self) -> None:
         """Load ReClor dataset from HuggingFace"""
         try:
-            dataset = load_dataset("metaeval/reclor", split=self.split)
+            # import pdb;pdb.set_trace()  # Debugging breakpoint
+            dataset = load_dataset("/data/home/scyb224/Workspace/Datasets/reclor", split='validation')
         except Exception as e:
             print(f"Error loading ReClor dataset: {e}")
-            print("Trying alternative split names...")
-            # Try common split names
-            for alt_split in ["test", "validation", "dev", "train"]:
-                try:
-                    dataset = load_dataset("metaeval/reclor", split=alt_split)
-                    print(f"Successfully loaded with split: {alt_split}")
-                    break
-                except:
-                    continue
-            else:
-                raise ValueError(f"Could not load ReClor dataset with split: {self.split}")
+            # print("Trying alternative split names...")
+            # # Try common split names
+            # for alt_split in [ "validation", "dev"]:
+            #     try:
+            #         dataset = load_dataset("metaeval/reclor", split=alt_split, trust_remote_code=True)
+            #         print(f"Successfully loaded with split: {alt_split}")
+            #         break
+            #     except:
+            #         continue
+            # else:
+            #     raise ValueError(f"Could not load ReClor dataset with split: {self.split}")
         
         self.examples = []
         for i, item in enumerate(dataset):

@@ -3,6 +3,7 @@
 from typing import List
 from datasets import load_dataset
 from .base import BaseDataset, LogicalReasoningExample
+import json
 
 
 class LogiQA2Dataset(BaseDataset):
@@ -15,13 +16,14 @@ class LogiQA2Dataset(BaseDataset):
     
     def load_data(self) -> None:
         """Load LogiQA 2.0 dataset from HuggingFace"""
+        # import pdb;pdb.set_trace
         try:
             dataset = load_dataset("datatune/LogiQA2.0", split=self.split)
         except Exception as e:
             print(f"Error loading LogiQA2.0 dataset: {e}")
             print("Trying alternative split names...")
             # Try common split names
-            for alt_split in ["test", "validation", "dev"]:
+            for alt_split in ["validation", "dev"]:
                 try:
                     dataset = load_dataset("datatune/LogiQA2.0", split=alt_split)
                     print(f"Successfully loaded with split: {alt_split}")
@@ -37,9 +39,10 @@ class LogiQA2Dataset(BaseDataset):
             # Common fields: text, options, answer, id
             example_id = item.get('id', f"logiqa2_{i}")
             
+            item = json.loads(item['text'])
             # Extract question and context
-            text = item.get('text', item.get('question', ''))
-            context = item.get('context', '')
+            question = item.get('question', '')
+            context = item.get('text', '')
             
             # Extract choices
             choices = item.get('options', item.get('choices', []))
@@ -55,7 +58,7 @@ class LogiQA2Dataset(BaseDataset):
             
             example = LogicalReasoningExample(
                 id=str(example_id),
-                question=text,
+                question=question,
                 choices=choices,
                 answer=str(answer),
                 context=context if context else None

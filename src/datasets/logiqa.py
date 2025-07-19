@@ -16,7 +16,8 @@ class LogiQADataset(BaseDataset):
     def load_data(self) -> None:
         """Load LogiQA dataset from HuggingFace"""
         try:
-            dataset = load_dataset("lucasmccabe/logiqa", split=self.split)
+            # import pdb;pdb.set_trace()  # Debugging breakpoint
+            dataset = load_dataset("lucasmccabe/logiqa", split=self.split, trust_remote_code=True)
         except Exception as e:
             print(f"Error loading LogiQA dataset: {e}")
             print("Trying alternative split names...")
@@ -37,7 +38,7 @@ class LogiQADataset(BaseDataset):
             example_id = item.get('id', f"logiqa_{i}")
             
             # Extract question and context
-            question = item.get('question', item.get('text', ''))
+            question = item.get('query', item.get('text', ''))
             context = item.get('context', item.get('passage', ''))
             
             # Extract choices
@@ -54,7 +55,7 @@ class LogiQADataset(BaseDataset):
                     choices = self._parse_choices_string(choices)
             
             # Extract answer
-            answer = item.get('answer', item.get('label', ''))
+            answer = item.get('correct_option', item.get('label', ''))
             if isinstance(answer, int):
                 # Convert integer answer to letter
                 answer = chr(ord('A') + answer) if 0 <= answer < 26 else str(answer)
