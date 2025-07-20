@@ -1,7 +1,7 @@
-DATASET='logiqa'
+DATASET='logiqa2'
 
 python evaluate.py \
-    --model_name "/home/chenzhb/Workspaces/LLMs/ReasonFlux-PRM-Qwen-2.5-7B" \
+    --model_name "/data/home/scyb224/Workspace/verl/output_models/Qwen2.5-1.5B_GRPO_LogiQA_epoch5" \
     --datasets ${DATASET} \
     --batch_size 64 \
     --temperature 0.6 \

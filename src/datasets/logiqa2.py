@@ -16,7 +16,6 @@ class LogiQA2Dataset(BaseDataset):
     
     def load_data(self) -> None:
         """Load LogiQA 2.0 dataset from HuggingFace"""
-        # import pdb;pdb.set_trace
         try:
             dataset = load_dataset("datatune/LogiQA2.0", split=self.split)
         except Exception as e:
@@ -38,8 +37,11 @@ class LogiQA2Dataset(BaseDataset):
             # Adapt to the actual structure of LogiQA2.0
             # Common fields: text, options, answer, id
             example_id = item.get('id', f"logiqa2_{i}")
-            
-            item = json.loads(item['text'])
+
+            try:
+                item = json.loads(item['text'])
+            except Exception as e:
+                continue
             # Extract question and context
             question = item.get('question', '')
             context = item.get('text', '')
