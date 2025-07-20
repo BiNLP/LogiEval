@@ -39,32 +39,52 @@ def extract_answer_choice(text: str, choices: List[str] = None) -> str:
     if choices is None:
         choices = ['A', 'B', 'C', 'D']
     
-    text = text.strip().upper()
+    text = text.strip()
     
-    # Direct match
-    for choice in choices:
-        if text == choice:
-            return choice
+    # # Direct match
+    # for choice in choices:
+    #     if text == choice:
+    #         return choice
     
-    # Look for choice at the beginning
-    for choice in choices:
-        if text.startswith(choice):
-            return choice
+    # # Look for choice at the beginning
+    # for choice in choices:
+    #     if text.startswith(choice):
+    #         return choice
     
-    # Look for "Answer: X" or "The answer is X" patterns
+    # Look for explicit answer patterns (more specific first)
+    # patterns = [
+    #     # "Answer: A" or "Answer is A" or "Answer A"
+    #     r'(?:answer|choice)(?:\s*is)?\s*:?\s*([A-D])\b',
+    #     # "The answer is A"
+    #     r'(?:the\s+)?answer\s+is\s+([A-D])\b',
+    #     # "I choose A" or "My choice is A"
+    #     r'(?:I\s+choose|my\s+choice\s+is|I\s+select)\s+([A-D])\b',
+    #     "(A)" or "[A]"
+    #     # r'[\(\[]([A-D])[\)\]]',
+    #     # At the very beginning or end of text
+    #     r'^([A-D])\b',
+    #     r'\b([A-D])$',
+    #     # After common conclusion words
+    #     r'(?:therefore|thus|so|hence|conclusion|result).*?([A-D])\b',
+    #     # Latex boxed format, e.g., \boxed{A} or \boxed{B}
+    #     r'\\boxed\{\{?([A-Za-z])\}?\}'
+    # ]
+    # import re
+    # # import pdb; pdb.set_trace()
+    # for pattern in patterns:
+    #     match = re.search(pattern, text, re.IGNORECASE)
+    #     if match:
+    #         choice = match.group(1).upper()
+    #         # if choice in choices:
+    #         #     return choice
+    #         return choice
     import re
-    patterns = [
-        r'(?:answer|choice)(?:\s*is)?\s*:?\s*([A-D])',
-        r'(?:the\s+)?answer\s+is\s+([A-D])',
-        r'\b([A-D])\b',
-    ]
+    # import pdb; pdb.set_trace()
+    matches = re.findall(r'\\boxed\{\{?([A-Za-z])\}?\}', text, re.IGNORECASE)
+    if matches:
+        predition = [letter.upper() for letter in matches][-1]
+        return predition
     
-    for pattern in patterns:
-        match = re.search(pattern, text, re.IGNORECASE)
-        if match:
-            choice = match.group(1).upper()
-            if choice in choices:
-                return choice
     
     return 'INVALID'
 

@@ -13,7 +13,8 @@ from src.utils.config import EvaluationConfig
 from src.utils.metrics import EvaluationResults
 from src.datasets.logiqa2 import LogiQA2Dataset
 from src.datasets.logiqa import LogiQADataset
-from src.datasets.reclor import ReClor
+from src.datasets.reclor import ReClorDataset
+from src.datasets.ar_lsat import ARLSATDataset
 from src.models.hf_model import HuggingFaceModel
 from src.models.vllm_model import VLLMModel
 from src.sampling.direct import DirectSampling
@@ -42,7 +43,8 @@ def create_dataset(dataset_name: str, split: str = "test"):
     dataset_map = {
         "logiqa2": LogiQA2Dataset,
         "logiqa": LogiQADataset,
-        "reclor": ReClor
+        "reclor": ReClorDataset,
+        "ar_lsat": ARLSATDataset
     }
     
     if dataset_name not in dataset_map:
@@ -205,8 +207,8 @@ def main():
     
     # Dataset arguments
     parser.add_argument("--datasets", nargs="+", 
-                       choices=["logiqa2", "logiqa", "reclor"],
-                       default=["logiqa2", "logiqa", "reclor"],
+                       choices=["logiqa2", "logiqa", "reclor","ar_lsat"],
+                       default=["logiqa2", "logiqa", "reclor","ar_lsat"],
                        help="Datasets to evaluate on")
     
     # Sampling arguments

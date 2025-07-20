@@ -64,7 +64,7 @@ class EvaluationConfig:
     
     def validate(self) -> None:
         """Validate configuration parameters"""
-        valid_datasets = {"logiqa2", "logiqa", "reclor"}
+        valid_datasets = {"logiqa2", "logiqa", "reclor","ar_lsat"}
         valid_sampling = {"direct", "bon", "majority_vote"}
         
         # Validate datasets

@@ -138,3 +138,7 @@ results/
 
 docker/
 docs/
+
+
+*/__pycache__/*
+*/*/__pycache__/*

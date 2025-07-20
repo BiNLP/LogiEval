@@ -5,7 +5,7 @@ from datasets import load_dataset
 from .base import BaseDataset, LogicalReasoningExample
 
 
-class ReClor(BaseDataset):
+class ReClorDataset(BaseDataset):
     """ReClor dataset from metaeval/reclor"""
     
     def __init__(self, split: str = "validation"):
@@ -17,7 +17,7 @@ class ReClor(BaseDataset):
         """Load ReClor dataset from HuggingFace"""
         try:
             # import pdb;pdb.set_trace()  # Debugging breakpoint
-            dataset = load_dataset("/data/home/scyb224/Workspace/Datasets/reclor", split='validation')
+            dataset = load_dataset("data/reclor", split='validation')
         except Exception as e:
             print(f"Error loading ReClor dataset: {e}")
             # print("Trying alternative split names...")

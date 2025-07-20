@@ -33,7 +33,7 @@ class LogicalReasoningExample:
         formatted = []
         for i, choice in enumerate(self.choices):
             if i < len(choice_labels):
-                formatted.append(f"{choice_labels[i]}) {choice}")
+                formatted.append(f"{choice_labels[i]}): {choice};")
         return "\n".join(formatted)
     
     @staticmethod
@@ -47,7 +47,9 @@ Question: {question}
 
 {choices}
 
-Answer:"""
+Please reason step by step with steps separated by "\n\n", and then put the index of the correct answer within \\boxed{{}}.
+
+Analysis:"""
 
 
 class BaseDataset(ABC):
