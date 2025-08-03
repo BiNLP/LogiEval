@@ -157,15 +157,22 @@ class EvaluationResults:
         self.raw_outputs = []
         self.intermediate_outputs = []
         self.sample_ids = []
+        self.questions = []
+        self.choices = []
+        self.contexts = []
     
     def add_result(self, sample_id: str, prediction: str, target: str, 
-                   raw_output: Union[str, List[str]], intermediate_output: Any = None):
+                   raw_output: Union[str, List[str]], intermediate_output: Any = None,
+                   question: str = None, choices: List[str] = None, context: str = None):
         """Add a single evaluation result"""
         self.sample_ids.append(sample_id)
         self.predictions.append(prediction)
         self.targets.append(target)
         self.raw_outputs.append(raw_output)
         self.intermediate_outputs.append(intermediate_output)
+        self.questions.append(question)
+        self.choices.append(choices)
+        self.contexts.append(context)
     
     def get_metrics(self) -> Dict[str, Any]:
         """Calculate and return evaluation metrics"""
@@ -189,15 +196,18 @@ class EvaluationResults:
             "detailed_results": [
                 {
                     "sample_id": sid,
+                    "question": question,
+                    "choices": choices,
+                    "context": context,
                     "prediction": pred,
                     "target": target,
                     "raw_output": raw,
                     "intermediate_output": inter,
                     "correct": pred == target
                 }
-                for sid, pred, target, raw, inter in zip(
-                    self.sample_ids, self.predictions, self.targets,
-                    self.raw_outputs, self.intermediate_outputs
+                for sid, question, choices, context, pred, target, raw, inter in zip(
+                    self.sample_ids, self.questions, self.choices, self.contexts,
+                    self.predictions, self.targets, self.raw_outputs, self.intermediate_outputs
                 )
             ]
         }

@@ -128,7 +128,10 @@ def evaluate_dataset(dataset, sampler, config: EvaluationConfig) -> EvaluationRe
                     prediction=prediction,
                     target=result['target'],
                     raw_output=raw_output,
-                    intermediate_output=intermediate_output if config.save_intermediate else None
+                    intermediate_output=intermediate_output if config.save_intermediate else None,
+                    question=example.question,
+                    choices=example.choices,
+                    context=example.context
                 )
         
         except Exception as e:
@@ -140,7 +143,10 @@ def evaluate_dataset(dataset, sampler, config: EvaluationConfig) -> EvaluationRe
                     prediction="ERROR",
                     target=example.answer,
                     raw_output="",
-                    intermediate_output={"error": str(e)} if config.save_intermediate else None
+                    intermediate_output={"error": str(e)} if config.save_intermediate else None,
+                    question=example.question,
+                    choices=example.choices,
+                    context=example.context
                 )
     
     return results

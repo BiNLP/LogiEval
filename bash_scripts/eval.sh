@@ -1,7 +1,10 @@
-DATASET='logiqa2'
+DATASET='reclor'
+
+# MODEL_PATH="/data/home/scyb224/Workspace/verl/output_models/Qwen2.5-1.5B_GRPO_LogiQA_epoch5"
+MODEL_PATH="/data/home/scyb224/Workspace/LLMs/Qwen2.5-1.5B-Instruct"
 
 python evaluate.py \
-    --model_name "/data/home/scyb224/Workspace/verl/output_models/Qwen2.5-1.5B_GRPO_LogiQA_epoch5" \
+    --model_name ${MODEL_PATH} \
     --datasets ${DATASET} \
     --batch_size 64 \
     --temperature 0.6 \
